@@ -1,0 +1,27 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
+
+# Dependencies (kalau-kalau nanti pakai npm)
+node_modules/
+
+# Build output (n/a sekarang)
+dist/
+.cache/
+
+# Env / secrets
+.env
+.env.*
+
+# Temp files
+*.tmp
+*.bak
+_*.ps1
+
+# Internal docs (tidak untuk publik)
+CLAUDE.md
+DESIGN.md
+IMPLEMENTATION_PLAN.md

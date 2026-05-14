@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="jp">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Galeri kuliner Jepang × Jerman — dua dunia rasa yang dirayakan dalam satu halaman. Wabi-sabi bertemu Bauhaus." />
+  <meta name="theme-color" content="#F5F0E8" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="author" content="Kuliner JP × DE" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="食 × Essen — Galeri Kuliner Jepang × Jerman" />
+  <meta property="og:description" content="Dua dunia rasa yang dirayakan dalam satu halaman. Switch antara mode Jepang dan Jerman." />
+  <meta property="og:locale" content="id_ID" />
+  <meta property="og:locale:alternate" content="ja_JP" />
+  <meta property="og:locale:alternate" content="de_DE" />
+  <meta property="og:site_name" content="食 × Essen" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="食 × Essen — Galeri Kuliner JP × DE" />
+  <meta name="twitter:description" content="Wabi-sabi bertemu Bauhaus. Dua dunia rasa, satu halaman." />
+
+  <!-- Favicon (data URL — karakter 食 sebagai placeholder) -->
+  <link rel="icon" href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="%23F5F0E8"/><text x="32" y="48" font-size="44" text-anchor="middle" font-family="serif" fill="%23C0392B">食</text></svg>' />
+
+  <title>食 × Essen — Galeri Kuliner Jepang × Jerman</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Wikimedia Commons (sumber foto) — preconnect untuk perf -->
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@700;800&family=Zen+Kaku+Gothic+New:wght@300;400&family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@300;400&display=swap"
+  />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+</head>
+<body>
+
+  <!-- Theme switch overlay (wipe panel) -->
+  <div class="theme-overlay" aria-hidden="true"></div>
+
+
+  <!-- ======================================================================
+       NAVIGATION
+       ====================================================================== -->
+  <header class="nav" role="banner" data-nav>
+    <div class="container nav__inner">
+      <a href="#hero" class="nav__logo" aria-label="Beranda — Galeri Kuliner JP × DE">
+        <span class="nav__logo-mark" aria-hidden="true">食</span>
+        <span class="nav__logo-x" aria-hidden="true">×</span>
+        <span class="nav__logo-mark" aria-hidden="true">Essen</span>
+      </a>
+
+      <nav class="nav__menu" id="nav-menu" aria-label="Navigasi utama">
+        <ul class="nav__list">
+          <li><a href="#story">Cerita</a></li>
+          <li><a href="#menu">Hidangan</a></li>
+          <li><a href="#tradisi">Tradisi</a></li>
+          <li><a href="#glosarium">Glosarium</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav__theme" role="group" aria-label="Pilih dunia kuliner">
+        <button type="button" data-theme-toggle="jp" aria-pressed="true">
+          <span aria-hidden="true">日</span> JP
+        </button>
+        <button type="button" data-theme-toggle="de" aria-pressed="false">
+          <span aria-hidden="true">D</span> DE
+        </button>
+      </div>
+
+      <button
+        type="button"
+        class="nav__hamburger"
+        data-nav-toggle
+        aria-controls="nav-menu"
+        aria-expanded="false"
+        aria-label="Buka menu"
+      >
+        <span class="nav__hamburger-bar" aria-hidden="true"></span>
+        <span class="nav__hamburger-bar" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+
+  <main id="main">
+
+    <!-- ====================================================================
+         HERO
+         ==================================================================== -->
+    <section class="hero" id="hero">
+      <span class="hero__ornament" aria-hidden="true"></span>
+
+      <div class="container hero__inner">
+        <p class="hero__eyebrow">
+          <span class="lang-jp">日本料理 · ドイツ料理</span>
+          <span class="lang-de">JAPANISCHE · DEUTSCHE KÜCHE</span>
+        </p>
+
+        <h1 class="hero__title">
+          <span class="hero__title-jp">食卓の旅</span>
+          <span class="hero__title-de">Esskultur</span>
+        </h1>
+
+        <p class="hero__tagline">
+          <span class="lang-jp">
+            Dua dunia rasa dalam satu halaman. Dari ramen yang menguar di gang
+            sempit Tokyo, sampai bratwurst yang dibakar di pasar Munich —
+            geser kuasnya, ganti dunianya.
+          </span>
+          <span class="lang-de">
+            Zwei kulinarische Welten auf einer Seite. Von dampfender Ramen
+            in den Gassen Tokios bis zur Bratwurst auf dem Münchner Markt —
+            wechseln Sie die Welt mit einem Klick.
+          </span>
+        </p>
+
+        <a href="#menu" class="hero__cta" data-cta>
+          <span class="lang-jp">食べる旅へ</span>
+          <span class="lang-de">JETZT ENTDECKEN</span>
+          <span class="hero__cta-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <span class="hero__meta lang-jp" aria-hidden="true">日本 × ドイツ — 食の物語</span>
+      <span class="hero__meta lang-de" aria-hidden="true">JAPAN × DEUTSCHLAND — KULINARIK</span>
+    </section>
+
+
+    <!-- ====================================================================
+         STORY / FILOSOFI
+         ==================================================================== -->
+    <section class="story" id="story" data-reveal>
+      <span class="story__ornament" aria-hidden="true"></span>
+
+      <div class="container story__inner">
+        <figure class="story__visual" aria-hidden="true">
+          <!-- TODO: ganti dengan <img> foto kuliner -->
+        </figure>
+
+        <div class="story__body">
+          <p class="story__eyebrow">
+            <span class="lang-jp">序 · Pengantar</span>
+            <span class="lang-de">EINLEITUNG · PENGANTAR</span>
+          </p>
+
+          <h2 class="story__title">
+            <span class="lang-jp">二つの食卓、一つの好奇心。</span>
+            <span class="lang-de">ZWEI TISCHE, EINE NEUGIER.</span>
+          </h2>
+
+          <p class="story__paragraph lang-jp">
+            Jepang memandang makanan sebagai meditasi. Setiap potongan, setiap
+            tetes, setiap musim diperlakukan sebagai tamu yang akan pergi.
+            Inilah yang disebut <em>shun</em> — saat puncak ketika sebuah
+            bahan paling layak dimakan.
+          </p>
+          <p class="story__paragraph lang-jp">
+            Di balik setiap mangkuk ramen ada kaldu yang dimasak semalam, di
+            balik setiap potongan sushi ada nasi yang ditanak dengan suhu yang
+            tepat. <em>Itadakimasu</em> bukan formalitas — itu adalah
+            penghormatan.
+          </p>
+
+          <p class="story__paragraph lang-de">
+            Jerman memperlakukan makanan sebagai struktur. Tepat waktu, padat
+            energi, jujur tentang asalnya. Sebuah Brezel dibuat sama persis
+            di Munich seperti di Berlin — keseragaman bukan kebosanan, tapi
+            janji.
+          </p>
+          <p class="story__paragraph lang-de">
+            <em>Bürgerliche Küche</em> — dapur rakyat — adalah tulang
+            punggungnya. Sosis, kentang, kol, roti. Sederhana, mengenyangkan,
+            berkarakter. <em>Guten Appetit</em> diucapkan ke seluruh meja
+            sebelum garpu pertama menyentuh piring.
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ====================================================================
+         MENU / HIDANGAN
+         ==================================================================== -->
+    <section class="menu" id="menu" data-reveal>
+      <div class="container menu__inner">
+        <header class="menu__header">
+          <p class="menu__eyebrow">
+            <span class="lang-jp">代表料理 · Galeri Hidangan</span>
+            <span class="lang-de">DIE KÜCHE · GALERI HIDANGAN</span>
+          </p>
+          <h2 class="menu__title">
+            <span class="lang-jp">代表的な料理</span>
+            <span class="lang-de">IKONISCHE GERICHTE</span>
+          </h2>
+          <p class="menu__intro lang-jp">
+            Lebih dari dua puluh hidangan yang menjadi tanda pengenal Jepang
+            di meja dunia — dari yang dimakan berdiri di yatai pasar malam,
+            sampai yang disajikan dalam kursus kaiseki. Geser ke bawah,
+            cicipi dengan mata.
+          </p>
+          <p class="menu__intro lang-de">
+            Lebih dari dua puluh hidangan yang menjadi wajah Jerman di mata
+            dunia — dari sosis pinggir jalan, panggang kayu, sampai kue
+            Natal yang berusia tujuh ratus tahun. Bürgerliche Küche
+            dalam bentuk paling jujur.
+          </p>
+        </header>
+
+        <div class="menu__grid" id="menu-grid" data-reveal-stagger>
+          <!-- Menu cards di-render dari JS — isi tergantung tema aktif -->
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ====================================================================
+         TRADISI MEJA
+         ==================================================================== -->
+    <section class="tradisi" id="tradisi" data-reveal>
+      <div class="container tradisi__inner">
+        <header class="tradisi__header">
+          <p class="tradisi__eyebrow">
+            <span class="lang-jp">食卓の作法 · Tata Cara Meja</span>
+            <span class="lang-de">TISCHKULTUR · BUDAYA MEJA</span>
+          </p>
+          <h2 class="tradisi__title">
+            <span class="lang-jp">作法の哲学</span>
+            <span class="lang-de">DIE PHILOSOPHIE DER MAHLZEIT</span>
+          </h2>
+        </header>
+
+        <div class="tradisi__grid">
+          <!-- ===== JP RULES ===== -->
+          <article class="tradisi__rule lang-jp" data-num="01">
+            <h3 class="tradisi__rule-title">いただきます</h3>
+            <p class="tradisi__rule-latin">Itadakimasu</p>
+            <p class="tradisi__rule-desc">
+              Diucapkan sebelum makan — bukan untuk Tuhan, tapi untuk semua
+              tangan dan kehidupan yang membuat hidangan ada di hadapanmu.
+            </p>
+          </article>
+
+          <article class="tradisi__rule lang-jp" data-num="02">
+            <h3 class="tradisi__rule-title">箸の使い方</h3>
+            <p class="tradisi__rule-latin">Hashi no tsukaikata</p>
+            <p class="tradisi__rule-desc">
+              Sumpit tidak ditancapkan ke nasi — itu mengingatkan pada upacara
+              kematian. Tidak juga dipakai mengoper makanan ke sumpit lain.
+            </p>
+          </article>
+
+          <article class="tradisi__rule lang-jp" data-num="03">
+            <h3 class="tradisi__rule-title">音を立てる</h3>
+            <p class="tradisi__rule-latin">Oto o tateru</p>
+            <p class="tradisi__rule-desc">
+              Menyeruput mie justru disukai — itu tanda kau menghargai panas
+              dan aroma kaldu. Diam mengunyah ramen dianggap canggung.
+            </p>
+          </article>
+
+          <article class="tradisi__rule lang-jp" data-num="04">
+            <h3 class="tradisi__rule-title">ごちそうさま</h3>
+            <p class="tradisi__rule-latin">Gochisōsama</p>
+            <p class="tradisi__rule-desc">
+              Diucapkan setelah selesai — terima kasih untuk perjamuan,
+              perjalanan, dan tangan-tangan yang tidak terlihat.
+            </p>
+          </article>
+
+          <!-- ===== DE RULES ===== -->
+          <article class="tradisi__rule lang-de" data-num="01">
+            <h3 class="tradisi__rule-title">GUTEN APPETIT</h3>
+            <p class="tradisi__rule-latin">"Selamat Makan"</p>
+            <p class="tradisi__rule-desc">
+              Tidak seorang pun mulai makan sebelum salam ini diucapkan ke
+              seluruh meja. Universal di Jerman — di restoran maupun di rumah.
+            </p>
+          </article>
+
+          <article class="tradisi__rule lang-de" data-num="02">
+            <h3 class="tradisi__rule-title">PROST</h3>
+            <p class="tradisi__rule-latin">"Bersulang"</p>
+            <p class="tradisi__rule-desc">
+              Saat mengangkat gelas, kontak mata wajib. Tidak menatap mata
+              dianggap tujuh tahun nasib buruk dalam tradisi rakyat.
+            </p>
+          </article>
+
+          <article class="tradisi__rule lang-de" data-num="03">
+            <h3 class="tradisi__rule-title">PÜNKTLICHKEIT</h3>
+            <p class="tradisi__rule-latin">"Tepat Waktu"</p>
+            <p class="tradisi__rule-desc">
+              Diundang makan jam 7? Datang jam 6:55. Terlambat sepuluh menit
+              di Jerman bukan santai — itu kasar.
+            </p>
+          </article>
+
+          <article class="tradisi__rule lang-de" data-num="04">
+            <h3 class="tradisi__rule-title">BROTZEIT</h3>
+            <p class="tradisi__rule-latin">"Waktu Roti"</p>
+            <p class="tradisi__rule-desc">
+              Camilan sore antara makan siang dan malam — roti, sosis, keju,
+              bir ringan. Bukan sekadar ngemil, tapi ritual hari kerja.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ====================================================================
+         GLOSARIUM
+         ==================================================================== -->
+    <section class="glosarium" id="glosarium" data-reveal>
+      <div class="container glosarium__inner">
+        <header class="glosarium__header">
+          <p class="glosarium__eyebrow">
+            <span class="lang-jp">用語集 · Daftar Istilah</span>
+            <span class="lang-de">GLOSSAR · DAFTAR ISTILAH</span>
+          </p>
+          <h2 class="glosarium__title">
+            <span class="lang-jp">食の言葉</span>
+            <span class="lang-de">WÖRTER DES TISCHES</span>
+          </h2>
+          <p class="glosarium__intro">
+            <span class="lang-jp">
+              Enam istilah yang akan membantumu memahami percakapan di meja
+              orang Jepang.
+            </span>
+            <span class="lang-de">
+              Enam istilah yang akan membantumu memahami percakapan di meja
+              orang Jerman.
+            </span>
+          </p>
+        </header>
+
+        <ul class="glosarium__list" id="glosarium-list" data-reveal-stagger>
+          <!-- Render dari JS — isi tergantung tema aktif -->
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ======================================================================
+       FOOTER
+       ====================================================================== -->
+  <footer class="footer" role="contentinfo">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        食 × Essen
+      </div>
+
+      <p class="footer__about">
+        <span class="lang-jp">
+          Sebuah halaman penghormatan untuk dua dunia kuliner yang berbeda
+          jalan tapi sama jujurnya.
+        </span>
+        <span class="lang-de">
+          Eine Hommage an zwei Esskulturen, die unterschiedliche Wege gehen,
+          aber gleichermaßen ehrlich bleiben.
+        </span>
+      </p>
+
+      <ul class="footer__social" aria-label="Tautan terkait">
+        <li><a href="#" rel="noopener">Instagram</a></li>
+        <li><a href="#" rel="noopener">Are.na</a></li>
+        <li><a href="#" rel="noopener">Pinterest</a></li>
+      </ul>
+
+      <p class="footer__credit text-small">
+        <span>© 2026 食 × Essen — Galeri kuliner JP × DE.</span>
+        <span class="lang-jp">いただきます — Gochisōsama.</span>
+        <span class="lang-de">GUTEN APPETIT — MAHLZEIT.</span>
+        <span class="footer__love">
+          Made with <span class="footer__heart" aria-label="cinta">♥</span> for Dinda
+        </span>
+      </p>
+    </div>
+  </footer>
+
+
+  <!-- Scripts -->
+  <script src="js/main.js" defer></script>
+</body>
+</html>

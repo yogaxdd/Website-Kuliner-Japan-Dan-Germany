@@ -1,0 +1,366 @@
+/* =========================================================================
+   base.css — Foundation
+   Kuliner Jepang × Jerman
+   -------------------------------------------------------------------------
+   Berisi:
+   - CSS Reset
+   - CSS Variables (JP & DE themes)
+   - Typography base
+   - Reveal/animation base states
+   ========================================================================= */
+
+
+/* -------------------------------------------------------------------------
+   1. CSS RESET
+   ------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body,
+h1, h2, h3, h4, h5, h6,
+p, figure, blockquote,
+dl, dd, ul, ol {
+  margin: 0;
+  padding: 0;
+}
+
+ul[role='list'],
+ol[role='list'],
+ul,
+ol {
+  list-style: none;
+}
+
+body {
+  min-height: 100vh;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+
+/* -------------------------------------------------------------------------
+   2. CSS VARIABLES — Shared (motion, sizing)
+   ------------------------------------------------------------------------- */
+
+:root {
+  /* --- TEXT SIZES (clamp untuk fluid responsiveness) --- */
+  --text-hero:      clamp(56px, 10vw, 120px);
+  --text-h1:        clamp(32px, 5vw, 64px);
+  --text-h2:        clamp(20px, 3vw, 36px);
+  --text-h3:        clamp(18px, 2vw, 24px);
+  --text-body:      16px;
+  --text-small:     13px;
+
+  /* --- SPACING --- */
+  --section-py:     120px;
+  --section-py-mobile: 64px;
+  --card-gap:       32px;
+  --max-width:      1100px;
+  --container-px:   24px;
+
+  /* --- MOTION --- */
+  --ease-smooth:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-spring:    cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out:       cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast:  0.2s;
+  --duration-base:  0.4s;
+  --duration-slow:  0.8s;
+  --duration-wipe:  0.8s;
+
+  /* --- Z-INDEX SCALE --- */
+  --z-nav:          100;
+  --z-overlay:      9999;
+}
+
+
+/* -------------------------------------------------------------------------
+   3. THEME — JP (Mode Jepang, default)
+   ------------------------------------------------------------------------- */
+
+[data-theme="jp"] {
+  /* Color palette */
+  --bg:             #F5F0E8;     /* Washi paper — krem hangat */
+  --bg-surface:     #EDE7D9;     /* Surface card */
+  --text-primary:   #1A1410;     /* Tinta sumi */
+  --text-muted:     #6B5D52;     /* Abu coklat */
+  --accent:         #C0392B;     /* Merah torii */
+  --accent-fg:      #FDFAF4;     /* Teks di atas accent */
+  --border:         #1A1410;     /* Garis hitam tipis */
+  --surface-line:   #1A1410;     /* Sub-border (tidak beda di JP) */
+  --white:          #FDFAF4;     /* Putih kertas */
+  --overlay-bg:     #0D0D0D;     /* Panel wipe — warna lawan (hitam dari DE) */
+
+  /* Typography */
+  --font-display:   'Shippori Mincho B1', 'Noto Serif JP', serif;
+  --font-body:      'Zen Kaku Gothic New', 'Noto Sans JP', sans-serif;
+  --font-accent:    'Cormorant Garamond', 'Times New Roman', serif;
+
+  /* JP-specific scale tweaks */
+  --line-height-body: 1.9;       /* Jepang suka line height lebar */
+  --letter-spacing-small: 0.08em;
+  --text-transform-small: none;
+
+  /* Layout */
+  --grid-gap:       24px;
+  --border-radius:  0px;         /* Sharp / wabi-sabi */
+  --border-width:   1px;
+}
+
+
+/* -------------------------------------------------------------------------
+   4. THEME — DE (Mode Jerman)
+   ------------------------------------------------------------------------- */
+
+[data-theme="de"] {
+  /* Color palette */
+  --bg:             #0D0D0D;     /* Hitam total */
+  --bg-surface:     #1A1A1A;     /* Card surface */
+  --text-primary:   #F0EDE6;     /* Off-white */
+  --text-muted:     #888880;     /* Abu netral */
+  --accent:         #E8C547;     /* Kuning Bauhaus */
+  --accent-fg:      #0D0D0D;     /* Teks di atas accent (hitam pekat) */
+  --border:         #F0EDE6;     /* Garis putih */
+  --surface-line:   #2A2A2A;     /* Sub-border subtle untuk tabel/card */
+  --white:          #F0EDE6;
+  --overlay-bg:     #F5F0E8;     /* Panel wipe — warna lawan (krem dari JP) */
+
+  /* Typography */
+  --font-display:   'Bebas Neue', 'Impact', sans-serif;
+  --font-body:      'Instrument Sans', 'Helvetica Neue', sans-serif;
+  --font-accent:    'DM Mono', 'Courier New', monospace;
+
+  /* DE-specific scale tweaks — lebih besar, lebih agresif */
+  --text-hero:      clamp(72px, 14vw, 160px);
+  --text-h1:        clamp(40px, 6vw, 80px);
+  --text-h2:        clamp(18px, 2.5vw, 28px);
+  --text-body:      15px;
+  --text-small:     12px;
+  --line-height-body: 1.6;
+  --letter-spacing-small: 0.15em;
+  --text-transform-small: uppercase;
+
+  /* Layout */
+  --grid-gap:       32px;
+  --border-radius:  0px;         /* Sharp corners */
+  --border-width:   1px;
+}
+
+
+/* -------------------------------------------------------------------------
+   5. TYPOGRAPHY BASE
+   ------------------------------------------------------------------------- */
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--line-height-body);
+  color: var(--text-primary);
+  background-color: var(--bg);
+  transition: background-color var(--duration-base) var(--ease-smooth),
+              color var(--duration-base) var(--ease-smooth);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  line-height: 1.1;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+h1 { font-size: var(--text-h1); }
+h2 { font-size: var(--text-h2); }
+h3 { font-size: var(--text-h3); }
+
+p {
+  color: var(--text-primary);
+  max-width: 65ch;
+}
+
+small,
+.text-small {
+  font-size: var(--text-small);
+  letter-spacing: var(--letter-spacing-small);
+  text-transform: var(--text-transform-small);
+}
+
+
+/* -------------------------------------------------------------------------
+   6. CONTAINER UTILITY
+   ------------------------------------------------------------------------- */
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--container-px);
+}
+
+
+/* -------------------------------------------------------------------------
+   7. REVEAL / SCROLL ANIMATION BASE STATES
+   ------------------------------------------------------------------------- */
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity var(--duration-slow) var(--ease-out),
+              transform var(--duration-slow) var(--ease-out);
+  will-change: opacity, transform;
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children — pakai CSS animation (bukan transition + delay) supaya
+   delay entrance tidak ikut menempel ke transisi hover di card. */
+[data-reveal-stagger] > * {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+[data-reveal-stagger].is-visible > * {
+  animation: reveal-stagger var(--duration-slow) var(--ease-out) forwards;
+}
+
+/* Pola 6n agar grid besar (2/3 kolom) tetap berirama tanpa terasa lambat */
+[data-reveal-stagger].is-visible > *:nth-child(6n+1) { animation-delay: 0.00s; }
+[data-reveal-stagger].is-visible > *:nth-child(6n+2) { animation-delay: 0.08s; }
+[data-reveal-stagger].is-visible > *:nth-child(6n+3) { animation-delay: 0.16s; }
+[data-reveal-stagger].is-visible > *:nth-child(6n+4) { animation-delay: 0.00s; }
+[data-reveal-stagger].is-visible > *:nth-child(6n+5) { animation-delay: 0.08s; }
+[data-reveal-stagger].is-visible > *:nth-child(6n)   { animation-delay: 0.16s; }
+
+@keyframes reveal-stagger {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* -------------------------------------------------------------------------
+   8. THEME-SWITCH OVERLAY (wipe panel saat switch)
+   ------------------------------------------------------------------------- */
+
+.theme-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  pointer-events: none;
+  transform: translateX(-100%);
+}
+
+[data-theme="jp"] .theme-overlay { background: var(--overlay-bg); }
+[data-theme="de"] .theme-overlay { background: var(--overlay-bg); }
+
+body.is-switching {
+  pointer-events: none;
+}
+
+body.is-switching .theme-overlay {
+  animation: theme-wipe var(--duration-wipe) var(--ease-smooth) forwards;
+}
+
+@keyframes theme-wipe {
+  0%   { transform: translateX(-100%); }
+  45%  { transform: translateX(0%); }
+  55%  { transform: translateX(0%); }
+  100% { transform: translateX(100%); }
+}
+
+
+/* -------------------------------------------------------------------------
+   9. RESPONSIVE — MOBILE-FIRST BREAKPOINTS
+   ------------------------------------------------------------------------- */
+
+/* Default: mobile (<640px) */
+
+/* Tablet */
+@media (min-width: 640px) {
+  :root {
+    --container-px: 40px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  :root {
+    --container-px: 48px;
+  }
+}
+
+
+/* -------------------------------------------------------------------------
+   10. PREFERS-REDUCED-MOTION — accessibility
+   ------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    transition: none;
+  }
+
+  [data-reveal],
+  [data-reveal-stagger] > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
+  }
+
+  body.is-switching .theme-overlay,
+  .theme-overlay {
+    animation: none;
+    transform: translateX(-100%);
+  }
+}

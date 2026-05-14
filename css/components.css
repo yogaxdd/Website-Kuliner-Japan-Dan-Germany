@@ -1,0 +1,1410 @@
+/* =========================================================================
+   components.css
+   Komponen visual: Nav, Hero, Story, Menu, Tradisi, Glosarium, Footer
+   -------------------------------------------------------------------------
+   Aturan: semua warna/font/spacing lewat CSS variables dari base.css.
+   Theme override via [data-theme="jp"] / [data-theme="de"].
+   ========================================================================= */
+
+
+/* =========================================================================
+   0. UTILITY — LANGUAGE TOGGLE
+   Elemen ber-class .lang-jp atau .lang-de hanya tampil di tema sesuai.
+   ========================================================================= */
+
+[data-theme="jp"] .lang-de,
+[data-theme="de"] .lang-jp {
+  display: none;
+}
+
+
+/* =========================================================================
+   1. NAVIGATION
+   ========================================================================= */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  background-color: transparent;
+  transition:
+    background-color var(--duration-base) var(--ease-smooth),
+    backdrop-filter var(--duration-base) var(--ease-smooth),
+    border-color var(--duration-base) var(--ease-smooth);
+  border-bottom: 1px solid transparent;
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  height: 72px;
+}
+
+.nav.is-scrolled {
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-bottom-color: var(--border);
+}
+
+[data-theme="jp"] .nav.is-scrolled { background-color: color-mix(in srgb, var(--bg) 78%, transparent); }
+[data-theme="de"] .nav.is-scrolled { background-color: color-mix(in srgb, var(--bg) 72%, transparent); }
+
+
+/* --- Logo --- */
+.nav__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--text-primary);
+}
+
+.nav__logo-mark {
+  font-size: 20px;
+  color: var(--accent);
+}
+
+.nav__logo-mark + .nav__logo-x + .nav__logo-mark {
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.nav__logo-x {
+  color: var(--text-muted);
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-weight: 300;
+}
+
+[data-theme="de"] .nav__logo {
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+[data-theme="de"] .nav__logo-x {
+  font-style: normal;
+  font-family: var(--font-accent);
+}
+
+
+/* --- Hamburger button (mobile only) --- */
+.nav__hamburger {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: transparent;
+  border: var(--border-width) solid var(--border);
+  cursor: pointer;
+  position: relative;
+  z-index: calc(var(--z-overlay) + 1);
+}
+
+.nav__hamburger-bar {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background-color: var(--text-primary);
+  transition:
+    transform var(--duration-base) var(--ease-smooth),
+    opacity var(--duration-fast) var(--ease-smooth);
+  transform-origin: center;
+}
+
+/* Open state — bars become an X */
+.nav__hamburger[aria-expanded="true"] .nav__hamburger-bar:nth-child(1) {
+  transform: translateY(3.75px) rotate(45deg);
+}
+.nav__hamburger[aria-expanded="true"] .nav__hamburger-bar:nth-child(2) {
+  transform: translateY(-3.75px) rotate(-45deg);
+}
+
+
+/* --- Menu links --- */
+.nav__menu {
+  /* Mobile-first: drawer fullscreen */
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  background-color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 96px 32px 48px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-12px);
+  transition:
+    opacity var(--duration-base) var(--ease-smooth),
+    visibility var(--duration-base) var(--ease-smooth),
+    transform var(--duration-base) var(--ease-smooth);
+}
+
+.nav__menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav__list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.nav__list a {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 8vw, 48px);
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--text-primary);
+  position: relative;
+  padding: 4px 0;
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+
+[data-theme="de"] .nav__list a {
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.nav__list a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background-color: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.nav__list a:hover,
+.nav__list a:focus-visible {
+  color: var(--accent);
+}
+.nav__list a:hover::after,
+.nav__list a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+
+/* Lock scroll when drawer open */
+body.nav-open {
+  overflow: hidden;
+}
+
+
+/* --- Theme toggle --- */
+.nav__theme {
+  display: inline-flex;
+  align-items: center;
+  border: var(--border-width) solid var(--border);
+}
+
+.nav__theme button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background-color: transparent;
+  transition:
+    background-color var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth);
+}
+
+.nav__theme button > span {
+  font-family: var(--font-display);
+  font-size: 14px;
+  line-height: 1;
+}
+
+[data-theme="jp"] .nav__theme button[aria-pressed="true"] {
+  background-color: var(--accent);
+  color: var(--white);
+}
+[data-theme="de"] .nav__theme button[aria-pressed="true"] {
+  background-color: var(--accent);
+  color: var(--accent-fg);
+}
+
+.nav__theme button:hover {
+  color: var(--text-primary);
+}
+
+
+/* =========================================================================
+   2. HERO SECTION
+   ========================================================================= */
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  margin-top: -72px;
+  padding-top: 72px;
+  background-color: var(--bg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-image var(--duration-base) var(--ease-smooth);
+}
+
+[data-theme="jp"] .hero {
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Jisaku_Kaiseki_Ryori_01.jpg/1920px-Jisaku_Kaiseki_Ryori_01.jpg');
+}
+
+[data-theme="de"] .hero {
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/O%27zapft_is%21_M%C3%BCnchens_5_Jahreszeit_hat_begonnen_-_O%27zapft_is%21_Munich_5_season%2C_the_Oktoberfest_has_begun_%289855483374%29.jpg/1920px-O%27zapft_is%21_M%C3%BCnchens_5_Jahreszeit_hat_begonnen_-_O%27zapft_is%21_Munich_5_season%2C_the_Oktoberfest_has_begun_%289855483374%29.jpg');
+}
+
+/* Overlay agar teks tetap legible di atas foto */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+[data-theme="jp"] .hero::before {
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--bg) 60%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 85%, transparent) 70%,
+      var(--bg) 100%);
+}
+
+[data-theme="de"] .hero::before {
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--bg) 50%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 80%, transparent) 65%,
+      var(--bg) 100%);
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding-block: 64px 80px;
+  display: grid;
+  gap: 24px;
+}
+
+
+/* --- Eyebrow --- */
+.hero__eyebrow {
+  font-family: var(--font-accent);
+  font-size: var(--text-small);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.hero__eyebrow::before {
+  content: "";
+  width: 32px;
+  height: 1px;
+  background-color: var(--accent);
+}
+
+
+/* --- Title — switch per tema --- */
+.hero__title {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.hero__title-jp,
+.hero__title-de { display: block; }
+[data-theme="jp"] .hero__title-de { display: none; }
+[data-theme="de"] .hero__title-jp { display: none; }
+
+[data-theme="de"] .hero__title {
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 12px;
+}
+[data-theme="de"] .hero__title::after {
+  content: "";
+  display: block;
+  height: 14px;
+  width: 60%;
+  background-color: var(--accent);
+  margin-top: 16px;
+}
+
+
+/* --- Tagline --- */
+.hero__tagline {
+  font-family: var(--font-body);
+  font-size: clamp(15px, 1.6vw, 18px);
+  color: var(--text-muted);
+  max-width: 56ch;
+  line-height: 1.6;
+}
+
+[data-theme="de"] .hero__tagline {
+  font-family: var(--font-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: clamp(12px, 1.2vw, 14px);
+}
+
+
+/* --- CTA --- */
+.hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 28px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth),
+    border-color var(--duration-fast) var(--ease-smooth);
+  width: max-content;
+}
+
+.hero__cta-arrow {
+  font-family: var(--font-accent);
+  transition: transform var(--duration-fast) var(--ease-smooth);
+}
+
+.hero__cta:hover .hero__cta-arrow {
+  transform: translateX(4px);
+}
+
+[data-theme="jp"] .hero__cta {
+  background-color: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+[data-theme="jp"] .hero__cta:hover,
+[data-theme="jp"] .hero__cta:focus-visible {
+  background-color: var(--accent);
+  color: var(--white);
+}
+
+[data-theme="de"] .hero__cta {
+  background-color: var(--accent);
+  color: var(--accent-fg);
+  border: 1px solid var(--accent);
+  font-family: var(--font-accent);
+  font-weight: 500;
+}
+[data-theme="de"] .hero__cta:hover,
+[data-theme="de"] .hero__cta:focus-visible {
+  background-color: transparent;
+  color: var(--accent);
+}
+
+
+/* --- Ornamen --- */
+.hero__ornament {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+  font-family: var(--font-display);
+  line-height: 1;
+}
+
+[data-theme="jp"] .hero__ornament {
+  top: 12%;
+  right: -2%;
+  font-size: clamp(220px, 38vw, 520px);
+  color: var(--text-primary);
+  opacity: 0.04;
+}
+[data-theme="jp"] .hero__ornament::before { content: "食"; }
+
+[data-theme="de"] .hero__ornament {
+  top: 12%;
+  right: 6%;
+  font-size: clamp(140px, 18vw, 260px);
+  color: var(--accent);
+  opacity: 1;
+  font-family: var(--font-accent);
+  letter-spacing: -0.04em;
+}
+[data-theme="de"] .hero__ornament::before { content: "01"; }
+
+
+/* --- Vertical meta (desktop only) --- */
+.hero__meta {
+  position: absolute;
+  z-index: 2;
+  bottom: 80px;
+  right: 24px;
+  font-family: var(--font-accent);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  writing-mode: vertical-rl;
+  display: none;
+}
+
+[data-theme="de"] .hero__meta {
+  font-family: var(--font-accent);
+  text-transform: uppercase;
+}
+
+
+/* =========================================================================
+   3. HERO — ENTRANCE ANIMATION
+   ========================================================================= */
+
+.hero__eyebrow,
+.hero__title,
+.hero__tagline,
+.hero__cta,
+.hero__ornament,
+.hero__meta {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out);
+}
+
+body.is-loaded .hero__eyebrow { opacity: 1; transform: none; transition-delay: 0.10s; }
+body.is-loaded .hero__title   { opacity: 1; transform: none; transition-delay: 0.25s; }
+body.is-loaded .hero__tagline { opacity: 1; transform: none; transition-delay: 0.50s; }
+body.is-loaded .hero__cta     { opacity: 1; transform: none; transition-delay: 0.65s; }
+body.is-loaded .hero__meta    { opacity: 1; transform: none; transition-delay: 0.80s; }
+
+[data-theme="jp"] .hero__ornament { --ornament-opacity: 0.04; }
+[data-theme="de"] .hero__ornament { --ornament-opacity: 1; }
+
+body.is-loaded .hero__ornament {
+  opacity: var(--ornament-opacity);
+  transform: none;
+  transition:
+    opacity 1.4s var(--ease-out) 0.4s,
+    transform 1.4s var(--ease-out) 0.4s;
+}
+
+
+/* =========================================================================
+   4. STORY SECTION
+   ========================================================================= */
+
+.story {
+  position: relative;
+  padding-block: var(--section-py-mobile);
+  overflow: hidden;
+}
+
+.story__inner {
+  display: grid;
+  gap: 48px;
+  grid-template-columns: 1fr;
+  position: relative;
+}
+
+.story__visual {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background-color: var(--bg-surface);
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  border: var(--border-width) solid transparent;
+}
+
+[data-theme="jp"] .story__visual {
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Oseti.jpg/1280px-Oseti.jpg');
+}
+
+[data-theme="de"] .story__visual {
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Bread_rolls_at_a_bakery.jpg/1280px-Bread_rolls_at_a_bakery.jpg');
+  border-color: var(--accent);
+}
+
+/* Tekstur dot pattern (washi paper) di-overlay di atas foto JP */
+[data-theme="jp"] .story__visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, color-mix(in srgb, var(--text-primary) 4%, transparent) 0px, transparent 1.5px),
+    radial-gradient(circle at 70% 60%, color-mix(in srgb, var(--text-primary) 3%, transparent) 0px, transparent 1.5px);
+  background-size: 18px 18px, 26px 26px;
+  pointer-events: none;
+}
+
+/* Grid pattern (graph paper) di-overlay di atas foto DE */
+[data-theme="de"] .story__visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--accent) 12%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--accent) 12%, transparent) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+
+[data-theme="jp"] .story__visual::before {
+  content: "";
+  position: absolute;
+  top: 24px;
+  bottom: 24px;
+  left: 0;
+  width: 2px;
+  background-color: var(--accent);
+  z-index: 2;
+}
+
+.story__body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+  z-index: 2;
+}
+
+.story__eyebrow {
+  font-family: var(--font-accent);
+  font-size: var(--text-small);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.story__eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background-color: var(--accent);
+}
+
+.story__title {
+  font-family: var(--font-display);
+  font-size: var(--text-h1);
+  line-height: 1.05;
+  color: var(--text-primary);
+  max-width: 16ch;
+}
+
+[data-theme="de"] .story__title {
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.story__paragraph {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--line-height-body);
+  color: var(--text-primary);
+  max-width: 56ch;
+}
+
+.story__paragraph + .story__paragraph {
+  color: var(--text-muted);
+}
+
+.story__paragraph em {
+  font-family: var(--font-accent);
+  font-style: italic;
+  color: var(--accent);
+}
+
+[data-theme="de"] .story__paragraph em {
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+
+/* --- Ornamen --- */
+.story__ornament {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  font-family: var(--font-display);
+  line-height: 1;
+  z-index: 0;
+}
+
+[data-theme="jp"] .story__ornament {
+  bottom: -8%;
+  left: -4%;
+  font-size: clamp(180px, 32vw, 420px);
+  color: var(--text-primary);
+  opacity: 0.05;
+}
+[data-theme="jp"] .story__ornament::before { content: "味"; }
+
+[data-theme="de"] .story__ornament {
+  top: -4%;
+  right: -2%;
+  font-size: clamp(120px, 16vw, 220px);
+  color: var(--accent);
+  opacity: 0.18;
+  font-family: var(--font-accent);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+[data-theme="de"] .story__ornament::before { content: "02"; }
+
+
+/* =========================================================================
+   5. MENU SECTION — Galeri Hidangan
+   ========================================================================= */
+
+.menu {
+  padding-block: var(--section-py-mobile);
+  position: relative;
+}
+
+.menu__header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 56px;
+  max-width: 720px;
+}
+
+.menu__eyebrow {
+  font-family: var(--font-accent);
+  font-size: var(--text-small);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.menu__title {
+  font-family: var(--font-display);
+  font-size: var(--text-h1);
+  line-height: 1.05;
+  color: var(--text-primary);
+}
+
+[data-theme="de"] .menu__title {
+  text-transform: uppercase;
+}
+
+.menu__intro {
+  font-family: var(--font-body);
+  color: var(--text-muted);
+  max-width: 56ch;
+}
+
+
+/* --- Grid --- */
+.menu__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--card-gap);
+}
+
+
+/* --- Card base --- */
+.menu__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-surface);
+  border: var(--border-width) solid var(--border);
+  color: var(--text-primary);
+  transition:
+    background-color var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth),
+    border-color var(--duration-fast) var(--ease-smooth);
+}
+
+[data-theme="jp"] .menu__card {
+  background-color: var(--white);
+  border-color: var(--border);
+}
+
+[data-theme="de"] .menu__card {
+  background-color: var(--bg-surface);
+  border-color: var(--surface-line);
+}
+
+
+/* --- Top meta strip — DE only (nomor, garis kuning, asal) --- */
+.menu__card-meta {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px 0;
+  font-family: var(--font-accent);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+}
+
+.menu__card-num {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.menu__card-line {
+  flex: 0 0 32px;
+  height: 2px;
+  background-color: var(--accent);
+}
+
+.menu__card-asal {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+[data-theme="de"] .menu__card-meta {
+  display: flex;
+}
+
+
+/* --- Figure --- */
+.menu__card-figure {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background-color: var(--bg-surface);
+  overflow: hidden;
+  margin: 0;
+}
+
+[data-theme="de"] .menu__card-figure {
+  aspect-ratio: 16 / 9;
+}
+
+.menu__card-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* Foto Wikimedia Commons di-load via <img>. Placeholder color
+     ada di <figure> background, terlihat saat foto belum load. */
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+
+/* --- Body --- */
+.menu__card-body {
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+[data-theme="de"] .menu__card-body {
+  padding: 20px 20px 24px;
+}
+
+.menu__card-kategori {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+[data-theme="de"] .menu__card-kategori {
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 11px;
+}
+
+
+/* --- Name (native vs latin) --- */
+.menu__card-name {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.4vw, 32px);
+  line-height: 1.1;
+  color: var(--text-primary);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  align-self: flex-start;
+}
+
+.menu__card-name-native {
+  display: block;
+}
+
+.menu__card-name-latin {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+}
+
+[data-theme="de"] .menu__card-name {
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+[data-theme="de"] .menu__card-name-latin {
+  font-style: normal;
+  font-family: var(--font-accent);
+  text-transform: none;
+  letter-spacing: 0.06em;
+}
+
+
+/* --- Description --- */
+.menu__card-desc {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+[data-theme="de"] .menu__card-desc {
+  font-size: 13px;
+}
+
+
+/* --- HOVER STATES --- */
+
+/* JP: garis merah di bawah nama, scale foto 1.03 */
+[data-theme="jp"] .menu__card:hover .menu__card-image {
+  transform: scale(1.03);
+}
+
+[data-theme="jp"] .menu__card .menu__card-name::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 1px;
+  background-color: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+[data-theme="jp"] .menu__card:hover .menu__card-name::after,
+[data-theme="jp"] .menu__card:focus-within .menu__card-name::after {
+  transform: scaleX(1);
+}
+
+/* DE: invert ke kuning */
+[data-theme="de"] .menu__card:hover,
+[data-theme="de"] .menu__card:focus-within {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-fg);
+}
+
+[data-theme="de"] .menu__card:hover .menu__card-num,
+[data-theme="de"] .menu__card:hover .menu__card-name,
+[data-theme="de"] .menu__card:hover .menu__card-name-latin,
+[data-theme="de"] .menu__card:hover .menu__card-kategori,
+[data-theme="de"] .menu__card:hover .menu__card-desc,
+[data-theme="de"] .menu__card:hover .menu__card-asal,
+[data-theme="de"] .menu__card:focus-within .menu__card-num,
+[data-theme="de"] .menu__card:focus-within .menu__card-name,
+[data-theme="de"] .menu__card:focus-within .menu__card-name-latin,
+[data-theme="de"] .menu__card:focus-within .menu__card-kategori,
+[data-theme="de"] .menu__card:focus-within .menu__card-desc,
+[data-theme="de"] .menu__card:focus-within .menu__card-asal {
+  color: var(--accent-fg);
+}
+
+[data-theme="de"] .menu__card:hover .menu__card-line,
+[data-theme="de"] .menu__card:focus-within .menu__card-line {
+  background-color: var(--accent-fg);
+}
+
+
+/* =========================================================================
+   6. TRADISI SECTION
+   ========================================================================= */
+
+.tradisi {
+  padding-block: var(--section-py-mobile);
+  position: relative;
+}
+
+.tradisi__header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 56px;
+  max-width: 720px;
+}
+
+.tradisi__eyebrow {
+  font-family: var(--font-accent);
+  font-size: var(--text-small);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.tradisi__title {
+  font-family: var(--font-display);
+  font-size: var(--text-h1);
+  line-height: 1.05;
+  color: var(--text-primary);
+}
+
+[data-theme="de"] .tradisi__title {
+  text-transform: uppercase;
+}
+
+.tradisi__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  border-top: 1px solid var(--border);
+  padding-top: 32px;
+}
+
+.tradisi__rule {
+  position: relative;
+  padding: 24px 0 24px 60px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tradisi__rule:last-child {
+  border-bottom: none;
+}
+
+.tradisi__rule::before {
+  content: attr(data-num);
+  position: absolute;
+  top: 24px;
+  left: 0;
+  font-family: var(--font-accent);
+  font-size: 13px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  font-weight: 500;
+}
+
+[data-theme="de"] .tradisi__rule::before {
+  font-size: 16px;
+}
+
+.tradisi__rule-title {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.6vw, 30px);
+  line-height: 1.1;
+  color: var(--text-primary);
+  margin: 0 0 4px;
+}
+
+[data-theme="de"] .tradisi__rule-title {
+  letter-spacing: 0.01em;
+}
+
+.tradisi__rule-latin {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0 0 14px;
+}
+
+[data-theme="de"] .tradisi__rule-latin {
+  font-style: normal;
+  text-transform: none;
+  letter-spacing: 0.06em;
+}
+
+.tradisi__rule-desc {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-primary);
+  max-width: 60ch;
+  margin: 0;
+}
+
+[data-theme="de"] .tradisi__rule-desc {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+
+/* =========================================================================
+   7. GLOSARIUM SECTION
+   ========================================================================= */
+
+.glosarium {
+  padding-block: var(--section-py-mobile);
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+[data-theme="jp"] .glosarium {
+  background-color: var(--white);
+}
+
+.glosarium__header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 48px;
+  max-width: 720px;
+}
+
+.glosarium__eyebrow {
+  font-family: var(--font-accent);
+  font-size: var(--text-small);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.glosarium__title {
+  font-family: var(--font-display);
+  font-size: var(--text-h1);
+  line-height: 1.05;
+  color: var(--text-primary);
+}
+
+[data-theme="de"] .glosarium__title {
+  text-transform: uppercase;
+}
+
+.glosarium__intro {
+  font-family: var(--font-body);
+  color: var(--text-muted);
+  max-width: 56ch;
+}
+
+
+/* --- List --- */
+.glosarium__list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.glosarium__item {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.glosarium__item:last-child {
+  border-bottom: none;
+}
+
+.glosarium__term {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.4vw, 30px);
+  line-height: 1;
+  color: var(--text-primary);
+}
+
+[data-theme="de"] .glosarium__term {
+  letter-spacing: 0.02em;
+}
+
+.glosarium__latin {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+
+[data-theme="de"] .glosarium__latin {
+  font-style: normal;
+  letter-spacing: 0.08em;
+}
+
+.glosarium__arti {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 56ch;
+}
+
+
+/* =========================================================================
+   8. FOOTER
+   ========================================================================= */
+
+.footer {
+  padding-block: 56px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.footer__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.footer__brand {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+}
+
+[data-theme="de"] .footer__brand {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.footer__about {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-muted);
+  max-width: 42ch;
+  margin: 0;
+}
+
+.footer__social {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.footer__social a {
+  font-family: var(--font-accent);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+.footer__social a:hover,
+.footer__social a:focus-visible {
+  color: var(--accent);
+}
+
+.footer__credit {
+  color: var(--text-muted);
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+
+/* Personal credit — slightly emphasised */
+.footer__love {
+  font-family: var(--font-accent);
+  font-style: italic;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+}
+
+[data-theme="de"] .footer__love {
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 11px;
+}
+
+.footer__heart {
+  display: inline-block;
+  color: var(--accent);
+  font-style: normal;
+  margin-inline: 2px;
+  animation: heart-beat 1.8s var(--ease-smooth) infinite;
+  transform-origin: center;
+}
+
+@keyframes heart-beat {
+  0%, 28%, 100% { transform: scale(1); }
+  14%           { transform: scale(1.18); }
+  42%           { transform: scale(1.08); }
+}
+
+
+/* =========================================================================
+   9. RESPONSIVE
+   ========================================================================= */
+
+@media (min-width: 768px) {
+  /* Nav: tampilkan menu inline, sembunyikan hamburger */
+  .nav__hamburger { display: none; }
+
+  .nav__menu {
+    position: static;
+    inset: auto;
+    background: transparent;
+    padding: 0;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    display: block;
+    z-index: auto;
+  }
+
+  .nav__list {
+    flex-direction: row;
+    gap: 32px;
+    align-items: center;
+  }
+
+  .nav__list a {
+    font-family: var(--font-body);
+    font-size: var(--text-small);
+    letter-spacing: var(--letter-spacing-small);
+    text-transform: var(--text-transform-small);
+  }
+
+  [data-theme="de"] .nav__list a {
+    letter-spacing: var(--letter-spacing-small);
+  }
+
+  .story { padding-block: var(--section-py); }
+  .story__inner {
+    grid-template-columns: 5fr 6fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .story__visual {
+    aspect-ratio: 4 / 5;
+    margin-block: -24px;
+  }
+  /* DE: visual di kanan (asimetri terbalik) */
+  [data-theme="de"] .story__inner {
+    grid-template-columns: 7fr 5fr;
+  }
+  [data-theme="de"] .story__body { order: 1; }
+  [data-theme="de"] .story__visual { order: 2; }
+
+  .menu { padding-block: var(--section-py); }
+  .menu__grid { grid-template-columns: repeat(2, 1fr); }
+
+  .tradisi { padding-block: var(--section-py); }
+  .tradisi__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0 48px;
+    column-gap: 48px;
+  }
+  .tradisi__rule {
+    padding-left: 60px;
+  }
+
+  .glosarium { padding-block: var(--section-py); }
+  .glosarium__list {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 48px;
+  }
+
+  .footer__inner {
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero__meta { display: block; }
+  .hero__inner {
+    padding-block: 80px 120px;
+    gap: 32px;
+  }
+
+  .menu__grid { grid-template-columns: repeat(3, 1fr); }
+
+  .glosarium__item {
+    grid-template-columns: 200px 140px 1fr;
+    gap: 32px;
+    align-items: baseline;
+  }
+  .glosarium__term { font-size: 26px; }
+}
+
+
+/* =========================================================================
+   10. REDUCED MOTION
+   ========================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__eyebrow,
+  .hero__title,
+  .hero__tagline,
+  .hero__cta,
+  .hero__ornament,
+  .hero__meta {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  [data-theme="jp"] .hero__ornament { opacity: 0.04; }
+  [data-theme="de"] .hero__ornament { opacity: 1; }
+
+  .nav,
+  .nav__list a::after,
+  .hero__cta-arrow,
+  .menu__card-image,
+  .menu__card,
+  .menu__card-name::after,
+  .footer__social a,
+  .footer__heart {
+    transition: none;
+    animation: none;
+  }
+}
