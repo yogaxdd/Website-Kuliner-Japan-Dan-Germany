@@ -106,7 +106,9 @@
   border: var(--border-width) solid var(--border);
   cursor: pointer;
   position: relative;
-  z-index: calc(var(--z-overlay) + 1);
+  /* Lebih tinggi dari drawer (yang dipindahkan ke body & jadi position: fixed
+     dengan z-index di bawah ini) — supaya tetap clickable saat drawer open. */
+  z-index: var(--z-overlay);
 }
 
 .nav__hamburger-bar {
@@ -129,30 +131,45 @@
 }
 
 
-/* --- Menu links --- */
+/* --- Menu links / Drawer (mobile) ---
+   Drawer di markup ada di dalam .nav, tapi saat dibuka JS memindahkannya
+   ke <body> agar tidak terjebak stacking context dari parent
+   (backdrop-filter, z-index, dll). */
 .nav__menu {
-  /* Mobile-first: drawer fullscreen */
   position: fixed;
   inset: 0;
-  z-index: var(--z-overlay);
   background-color: var(--bg);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   padding: 96px 32px 48px;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-12px);
   transition:
     opacity var(--duration-base) var(--ease-smooth),
-    visibility var(--duration-base) var(--ease-smooth),
-    transform var(--duration-base) var(--ease-smooth);
+    visibility var(--duration-base) var(--ease-smooth);
+  z-index: calc(var(--z-overlay) - 1);
 }
 
 .nav__menu.is-open {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
+}
+
+/* Saat drawer open: nav z-index naik supaya hamburger tetap clickable
+   (sebagai tombol close), dan backdrop-filter dimatikan. */
+body.nav-open .nav {
+  z-index: var(--z-overlay);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background-color: transparent;
+  border-bottom-color: transparent;
+}
+
+/* Lock scroll when drawer open */
+body.nav-open {
+  overflow: hidden;
 }
 
 .nav__list {
@@ -160,6 +177,7 @@
   flex-direction: column;
   gap: 24px;
   align-items: flex-start;
+  width: 100%;
 }
 
 .nav__list a {
@@ -198,12 +216,6 @@
 .nav__list a:hover::after,
 .nav__list a:focus-visible::after {
   transform: scaleX(1);
-}
-
-
-/* Lock scroll when drawer open */
-body.nav-open {
-  overflow: hidden;
 }
 
 
@@ -1295,15 +1307,17 @@ body.is-loaded .hero__ornament {
     padding: 0;
     opacity: 1;
     visibility: visible;
-    transform: none;
-    display: block;
     z-index: auto;
+    flex-direction: row;
+    align-items: center;
+    pointer-events: auto;
   }
 
   .nav__list {
     flex-direction: row;
     gap: 32px;
     align-items: center;
+    width: auto;
   }
 
   .nav__list a {

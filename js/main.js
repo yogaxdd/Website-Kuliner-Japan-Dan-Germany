@@ -641,12 +641,56 @@
         });
       },
       {
-        threshold: 0.15,
-        rootMargin: '0px 0px -10% 0px',
+        // threshold rendah agar section tinggi (24 card menu) tetap trigger
+        threshold: 0,
+        rootMargin: '0px 0px -5% 0px',
       }
     );
 
     targets.forEach((el) => revealObserver.observe(el));
+
+    // Fallback: setelah 1.5 detik, paksa visible semua yang sudah berada di
+    // atau di atas viewport. Mengatasi kasus user landing dengan #hash —
+    // browser anchor-scroll bisa terjadi sebelum observer sempat evaluate.
+    setTimeout(() => {
+      targets.forEach((el) => {
+        if (el.classList.contains('is-visible')) return;
+        const rect = el.getBoundingClientRect();
+        const inOrAboveViewport = rect.top < window.innerHeight;
+        if (inOrAboveViewport) {
+          el.classList.add('is-visible');
+          if (revealObserver) revealObserver.unobserve(el);
+        }
+      });
+    }, 1500);
+  };
+
+  // -----------------------------------------------------------------------
+  // ANCHOR LINKS — pastikan section target visible saat di-jump-to
+  // -----------------------------------------------------------------------
+
+  const initAnchorReveal = () => {
+    const reveal = (target) => {
+      if (!target) return;
+      target.classList.add('is-visible');
+      target.querySelectorAll('[data-reveal], [data-reveal-stagger]')
+        .forEach((el) => el.classList.add('is-visible'));
+    };
+
+    // Saat user klik anchor link (#section), langsung tampilkan section
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a[href^="#"]');
+      if (!link) return;
+      const href = link.getAttribute('href');
+      if (!href || href === '#') return;
+      reveal(document.querySelector(href));
+    });
+
+    // Saat halaman load dengan hash di URL (mis. /#menu)
+    if (window.location.hash) {
+      // tunggu sebentar agar layout stabil
+      setTimeout(() => reveal(document.querySelector(window.location.hash)), 50);
+    }
   };
 
   // -----------------------------------------------------------------------
@@ -689,11 +733,36 @@
     const menu = document.getElementById('nav-menu');
     if (!toggle || !menu) return;
 
+    // Simpan parent asli — supaya saat tutup drawer, menu balik ke nav
+    const originalParent = menu.parentNode;
+    const originalNextSibling = menu.nextSibling;
+
     const setOpen = (open) => {
       toggle.setAttribute('aria-expanded', String(open));
       toggle.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
-      menu.classList.toggle('is-open', open);
       document.body.classList.toggle('nav-open', open);
+
+      if (open) {
+        // Pindahkan drawer ke body — keluar dari stacking context apapun
+        document.body.appendChild(menu);
+        // rAF untuk memicu transisi (kelas dipasang setelah pindah DOM)
+        requestAnimationFrame(() => {
+          menu.classList.add('is-open');
+        });
+      } else {
+        menu.classList.remove('is-open');
+        // Tunggu transisi selesai sebelum kembalikan ke parent asli,
+        // supaya tidak terlihat "lompat" saat menutup
+        const back = () => {
+          if (originalNextSibling && originalNextSibling.parentNode === originalParent) {
+            originalParent.insertBefore(menu, originalNextSibling);
+          } else {
+            originalParent.appendChild(menu);
+          }
+          menu.removeEventListener('transitionend', back);
+        };
+        menu.addEventListener('transitionend', back);
+      }
     };
 
     toggle.addEventListener('click', () => {
@@ -701,9 +770,21 @@
       setOpen(!isOpen);
     });
 
-    // Tutup saat user klik salah satu link
+    // Tutup saat user klik salah satu link, dan force-visible section target
+    // (ngakalin kasus IntersectionObserver belum sempat trigger saat anchor jump)
     menu.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => setOpen(false));
+      link.addEventListener('click', () => {
+        const href = link.getAttribute('href') || '';
+        if (href.startsWith('#')) {
+          const target = document.querySelector(href);
+          if (target) {
+            target.classList.add('is-visible');
+            target.querySelectorAll('[data-reveal], [data-reveal-stagger]')
+              .forEach((el) => el.classList.add('is-visible'));
+          }
+        }
+        setOpen(false);
+      });
     });
 
     // Tutup saat tekan Escape
@@ -762,6 +843,7 @@
 
     bindThemeToggles();
     initScrollReveal();
+    initAnchorReveal();
     initNavScroll();
     initNavDrawer();
     initEntrance();
